@@ -4,33 +4,68 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.dexmp.learning1.ui.theme.FirstComposeProjectTheme
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            UserInfo(name = "DexMP", age = 25)
+            TimesTable()
         }
     }
 }
-
+@Preview
 @Composable
-fun UserInfo(name: String, age: Int) {
-    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-        for (i in 1..10) {
-            Text(text = "Hello $name, u $age years! TIC: $i")
+fun TimesTable() {
+    Column(
+        modifier = Modifier
+            .padding(all = 24.dp)
+            .fillMaxSize()
+    ) {
+        for (i in 1 until 10) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                for (j in 1 until 10) {
+                    Box(
+                        modifier = (if ((i + j) % 2 != 0){
+                            Modifier
+                                .background(color = Color.Cyan)
+                                .fillMaxHeight()
+                                .weight(1f)
+                                .border(width = 0.5.dp, color = Color.Gray)
+                        } else {
+                            Modifier
+                                .background(color = Color.Unspecified)
+                                .fillMaxHeight()
+                                .weight(1f)
+                                .border(width = 0.5.dp, color = Color.Gray)
+                        }) as Modifier,
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "${i*j}", fontSize = 18.sp)
+                    }
+                }
+            }
         }
     }
 }
